@@ -47,6 +47,7 @@ class HuiTimeEntityRow extends LitElement implements LovelaceRow {
     return html`
       <hui-generic-entity-row .hass=${this.hass} .config=${this._config}>
         <ha-time-input
+          .enableSecond=${stateObj.state?.split(":")[2] !== "00"}
           .value=${isUnavailableState(stateObj.state)
             ? undefined
             : stateObj.state}

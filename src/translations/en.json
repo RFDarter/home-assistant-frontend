@@ -1475,7 +1475,8 @@
           "date": "Date",
           "time": "Time",
           "datetime": "Date and time",
-          "mode": "What do you want to input"
+          "mode": "What do you want to input",
+          "enable_seconds": "Enable seconds?"
         },
         "input_text": {
           "min": "Minimum length",

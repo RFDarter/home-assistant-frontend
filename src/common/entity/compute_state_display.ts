@@ -9,7 +9,7 @@ import {
 } from "../datetime/duration";
 import { formatDate } from "../datetime/format_date";
 import { formatDateTime } from "../datetime/format_date_time";
-import { formatTime } from "../datetime/format_time";
+import { formatTimeWithSeconds } from "../datetime/format_time";
 import {
   formatNumber,
   getNumberFormatOptions,
@@ -144,7 +144,7 @@ export const computeStateDisplayFromEntityAttributes = (
         if (state.includes(":")) {
           // Time only.
           const now = new Date();
-          return formatTime(
+          return formatTimeWithSeconds(
             new Date(`${now.toISOString().split("T")[0]}T${state}`),
             { ...locale, time_zone: TimeZone.local },
             config

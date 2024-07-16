@@ -9,6 +9,7 @@ import "../../../../components/ha-textfield";
 import { InputDateTime } from "../../../../data/input_datetime";
 import { haStyle } from "../../../../resources/styles";
 import { HomeAssistant } from "../../../../types";
+import { HaCheckbox } from "../../../../components/ha-checkbox";
 
 @customElement("ha-input_datetime-form")
 class HaInputDateTimeForm extends LitElement {
@@ -24,11 +25,14 @@ class HaInputDateTimeForm extends LitElement {
 
   @state() private _mode!: "date" | "time" | "datetime";
 
+  @state() private _enable_seconds!: boolean;
+
   set item(item: InputDateTime) {
     this._item = item;
     if (item) {
       this._name = item.name || "";
       this._icon = item.icon || "";
+      this._enable_seconds = item.enable_seconds || false;
       this._mode =
         item.has_time && item.has_date
           ? "datetime"
@@ -40,6 +44,7 @@ class HaInputDateTimeForm extends LitElement {
     } else {
       this._name = "";
       this._icon = "";
+      this._enable_seconds = false;
       this._mode = "date";
     }
   }
@@ -122,17 +127,46 @@ class HaInputDateTimeForm extends LitElement {
             @change=${this._modeChanged}
           ></ha-radio>
         </ha-formfield>
+        ${["time", "datetime"].includes(this._mode)
+          ? html` <br />
+              <ha-formfield
+                .label=${this.hass.localize(
+                  "ui.dialogs.helper_settings.input_datetime.enable_seconds"
+                )}
+              >
+                <ha-checkbox
+                  name="seconds"
+                  value="false"
+                  .checked=${this._enable_seconds}
+                  @change=${this._enableSecondsChanged}
+                >
+                </ha-checkbox>
+              </ha-formfield>`
+          : nothing}
       </div>
     `;
   }
 
   private _modeChanged(ev: CustomEvent) {
     const mode = (ev.target as HaRadio).value;
+    // if (["time", "datetime"].includes(mode)) {
+    //   ...
+    // }
     fireEvent(this, "value-changed", {
       value: {
         ...this._item,
         has_time: ["time", "datetime"].includes(mode),
         has_date: ["date", "datetime"].includes(mode),
+      },
+    });
+  }
+
+  private _enableSecondsChanged(ev: CustomEvent) {
+    const checked = (ev.target as HaCheckbox).checked;
+    fireEvent(this, "value-changed", {
+      value: {
+        ...this._item,
+        enable_seconds: checked,
       },
     });
   }

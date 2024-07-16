@@ -82,6 +82,7 @@ class HuiInputDatetimeEntityRow extends LitElement implements LovelaceRow {
           ${stateObj.attributes.has_time
             ? html`
                 <ha-time-input
+                  .enableSecond=${stateObj.attributes.enable_seconds}
                   .value=${stateObj.state === UNKNOWN
                     ? ""
                     : stateObj.attributes.has_date

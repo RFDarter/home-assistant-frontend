@@ -8,6 +8,7 @@ export interface InputDateTime {
   initial?: string;
   has_time: boolean;
   has_date: boolean;
+  enable_seconds: boolean;
 }
 
 export interface InputDateTimeMutableParams {
@@ -16,6 +17,7 @@ export interface InputDateTimeMutableParams {
   initial: string;
   has_time: boolean;
   has_date: boolean;
+  enable_seconds: boolean;
 }
 
 export const stateToIsoDateString = (entityState: HassEntity) =>

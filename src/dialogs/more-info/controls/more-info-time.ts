@@ -20,6 +20,7 @@ class MoreInfoTime extends LitElement {
 
     return html`
       <ha-time-input
+        .enableSecond=${this.stateObj.state?.split(":")[2] !== "00"}
         .value=${isUnavailableState(this.stateObj.state)
           ? undefined
           : this.stateObj.state}

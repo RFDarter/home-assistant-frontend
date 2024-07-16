@@ -76,6 +76,7 @@ class HuiInputDatetimeEntityRow extends LitElement implements LovelaceRow {
           >
           </ha-date-input>
           <ha-time-input
+            .enableSecond=${time?.split(":")[2] !== "00"}
             .value=${time}
             .disabled=${unavailable}
             .locale=${this.hass.locale}

@@ -33,6 +33,7 @@ class MoreInfoDatetime extends LitElement {
       >
       </ha-date-input>
       <ha-time-input
+        .enableSecond=${time?.split(":")[2] !== "00"}
         .value=${time}
         .locale=${this.hass.locale}
         .disabled=${this.stateObj.state === UNAVAILABLE}

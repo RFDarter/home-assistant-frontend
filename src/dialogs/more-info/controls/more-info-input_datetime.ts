@@ -36,6 +36,7 @@ class MoreInfoInputDatetime extends LitElement {
       ${this.stateObj.attributes.has_time
         ? html`
             <ha-time-input
+              .enableSecond=${this.stateObj.attributes.enable_seconds}
               .value=${this.stateObj.state === UNKNOWN
                 ? ""
                 : this.stateObj.attributes.has_date
