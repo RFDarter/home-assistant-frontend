@@ -8,8 +8,11 @@ import {
   formatDuration,
 } from "../datetime/duration";
 import { formatDate } from "../datetime/format_date";
-import { formatDateTime } from "../datetime/format_date_time";
-import { formatTimeWithSeconds } from "../datetime/format_time";
+import {
+  formatDateTime,
+  formatDateTimeWithSeconds,
+} from "../datetime/format_date_time";
+import { formatTime, formatTimeWithSeconds } from "../datetime/format_time";
 import {
   formatNumber,
   getNumberFormatOptions,
@@ -126,6 +129,14 @@ export const computeStateDisplayFromEntityAttributes = (
       const components = state.split(" ");
       if (components.length === 2) {
         // Date and time.
+        const time_components = components[2].split(":");
+        if (time_components.length === 3 && time_components[2] !== "00") {
+          return formatDateTimeWithSeconds(
+            new Date(components.join("T")),
+            { ...locale, time_zone: TimeZone.local },
+            config
+          );
+        }
         return formatDateTime(
           new Date(components.join("T")),
           { ...locale, time_zone: TimeZone.local },
@@ -144,11 +155,20 @@ export const computeStateDisplayFromEntityAttributes = (
         if (state.includes(":")) {
           // Time only.
           const now = new Date();
-          return formatTimeWithSeconds(
-            new Date(`${now.toISOString().split("T")[0]}T${state}`),
-            { ...locale, time_zone: TimeZone.local },
-            config
-          );
+          if (state.includes(":"))
+            if (state.split(":").length === 3 && state.split(":")[2] !== "00") {
+              return formatTimeWithSeconds(
+                new Date(`${now.toISOString().split("T")[0]}T${state}`),
+                { ...locale, time_zone: TimeZone.local },
+                config
+              );
+            } else {
+              return formatTime(
+                new Date(`${now.toISOString().split("T")[0]}T${state}`),
+                { ...locale, time_zone: TimeZone.local },
+                config
+              );
+            }
         }
       }
       return state;
